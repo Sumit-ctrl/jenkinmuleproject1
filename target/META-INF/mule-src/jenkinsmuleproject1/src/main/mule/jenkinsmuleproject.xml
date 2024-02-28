@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="31907629-05c9-4cf2-8b40-b183f9ebe82b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="jenkinsmuleprojectFlow" doc:id="15ba88a5-754f-4c04-9a6d-4a026952818a" >
+		<http:listener doc:name="Listener" doc:id="8a75e25a-4e07-4d3b-84a7-60b0ff18dd7f" config-ref="HTTP_Listener_config" path="/mulejenkins"/>
+		<ee:transform doc:name="Transform Message" doc:id="f67c24ac-8ffe-44fa-a8b4-794bbc743b3b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{"Application":"The application is deployed on cloudhub 1.0 with jenkins. Check POM.xml"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="50870b4d-35ac-40c2-b7aa-c68bd0085cd0" />
+	</flow>
+</mule>
